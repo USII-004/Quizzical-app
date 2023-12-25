@@ -2,7 +2,7 @@ import React from 'react'
 
 const Welcome = () => {
   return (
-    <div className='bg-[#F5F7FB] w-screen h-screen relative'>
+    <div className='bg-[#F5F7FB] w-[100dh] h-screen relative'>
 
     {/* background blob container */}
 
