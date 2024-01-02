@@ -3,6 +3,15 @@ import React from 'react';
 const Questions = () => {
   const [randomQuestion, setRandomQuestion] = React.useState({});
   const [isLoading, setIsLoading] = React.useState(true);
+  const [activeButtons, setActiveButtons] = React.useState([]);
+
+  const handleButtonClick = (questionIndex, answerIndex) => {
+    setActiveButtons((prevActiveButtons) => {
+      const newActiveButtons = [...prevActiveButtons];
+      newActiveButtons[questionIndex] = answerIndex;
+      return newActiveButtons;
+    });
+  };
 
   React.useEffect(() => {
     async function getQuestions() {
@@ -10,9 +19,9 @@ const Questions = () => {
         const res = await fetch("https://opentdb.com/api.php?amount=10&category=20");
         const data = await res.json();
 
-        console.log(data.results)
         setRandomQuestion(data.results);
         setIsLoading(false);
+        setActiveButtons(new Array(data.results.length).fill(false));
       } catch (error) {
         console.error("Error fetching questions:", error);
         setIsLoading(false);
@@ -76,34 +85,39 @@ const Questions = () => {
             <p className='text-xl font-bold text-[#293264]'>Loading...</p>
           </div>
         ) : (
-          <div className='w-[10odh] h-max px-8 py-8 md:px-32 md:py-16'>
-            {randomQuestion.map((item, index) => (
+          <div className='w-[100dh] h-max px-8 py-8 md:px-32 md:py-16'>
+            {randomQuestion.map((item, questionIndex) => (
               <div className='my-4 border-b-2'>
                 <h2 
-                  key={index} 
+                  key={questionIndex} 
                   className='font-[700] text-[#293264] text-[1rem] px-2 md:px-4'
                 >{item.question}</h2>
 
                 {/* Corrected answers variable declaration */}
-                <div className='flex my-4 w-[100dh]'>
+                <div className='flex my-4 w-[100dh] overflow-x-auto'>
                   { 
                     (() => {
-                      // Assuming item.incorrect_answers is an array
                       const answers = [...item.incorrect_answers, item.correct_answer];
-                      console.log(answers);
-
+                      
                       // Custom sorting function to shuffle the array
                       const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
-                      console.log(shuffledAnswers);
+                      {/* function toggleBackground(item) {
+                        item.style.backgroundColor === 'transparent' ? item.style.backgroundColor = 'red' : item.style.backgroundColor = 'transparent'
+                      } */}
+
 
                       return shuffledAnswers.map((answer, answerIndex) => (
-                        <button 
+                        <button
                           key={answerIndex}
-                          className='text-xl border-[#293264] border rounded-md flex justify-center items-center mx-4 px-2 text-[#293264]'
-                        >
-                          {answer}
-                        </button>                       
+                          className={`text-xl border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap 
+                            ${
+                              activeButtons[questionIndex] === answerIndex ? 'bg-blue-500 text-white' : 'bg-white'
+                            }`}
+                          onClick={() => handleButtonClick(questionIndex, answerIndex)}
+                    >
+                      {answer}
+                    </button>                      
                       ));
                     })()
                   }
