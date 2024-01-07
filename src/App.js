@@ -3,12 +3,23 @@ import Welcome from "./components/Welcome";
 import Questions from "./components/Questions";
 
 function App() {
-  return (
-    <div className="App">
-      {/* <Welcome /> */}
+  const [startQuiz, setStartQuiz] = React.useState(false);
+
+  function handleStartQuiz() {
+    setStartQuiz(true);
+  }
+
+  if (startQuiz === false) {
+    return(
+      <Welcome 
+        handleStartQuizBtnPress = {handleStartQuiz}
+      />
+    )
+  } else {
+    return (
       <Questions />
-    </div>
-  );
+    )
+  }
 }
 
 export default App;

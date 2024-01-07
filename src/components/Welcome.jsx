@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Welcome = () => {
+const Welcome = (props) => {
   return (
     <div className='bg-[#F5F7FB] w-[100dh] h-screen relative'>
 
@@ -30,7 +30,11 @@ const Welcome = () => {
       <main className='h-[100%] w-[100%] flex flex-col justify-center items-center'>
         <h2 className='text-[#293264] font-[700] text-[32px]'>Quizzical</h2>
         <p className='text-[#293264] text-[16px] font-[Inter]'>Some description if needed</p>
-        <button className='bg-[#4D5B9E] hover:bg-[#394376] transition-all ease-in-out text-[#F5F7FB] flex justify-center items-center w-[193px] h-[52px] mt-[29px] rounded-[15px] text-[16px] font-[500] font-[Inter]'>Start quiz</button>
+        <button
+          onClick={props.handleStartQuizBtnPress} 
+          className='bg-[#4D5B9E] hover:bg-[#394376] transition-all ease-in-out text-[#F5F7FB] flex justify-center items-center w-[193px] h-[52px] mt-[29px] rounded-[15px] text-[16px] font-[500] font-[Inter]'>
+          Start quiz
+        </button>
       </main>
     </div>
   )

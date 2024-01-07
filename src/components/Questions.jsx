@@ -102,11 +102,6 @@ const Questions = () => {
                       // Custom sorting function to shuffle the array
                       const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
 
-                      {/* function toggleBackground(item) {
-                        item.style.backgroundColor === 'transparent' ? item.style.backgroundColor = 'red' : item.style.backgroundColor = 'transparent'
-                      } */}
-
-
                       return shuffledAnswers.map((answer, answerIndex) => (
                         <button
                           key={answerIndex}
@@ -115,9 +110,9 @@ const Questions = () => {
                               activeButtons[questionIndex] === answerIndex ? 'bg-blue-500 text-white' : 'bg-white'
                             }`}
                           onClick={() => handleButtonClick(questionIndex, answerIndex)}
-                    >
-                      {answer}
-                    </button>                      
+                        >
+                          {answer}
+                        </button>                      
                       ));
                     })()
                   }
