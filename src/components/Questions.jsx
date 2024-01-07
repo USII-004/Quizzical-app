@@ -1,41 +1,6 @@
 import React from 'react';
 
-const Questions = () => {
-  const [randomQuestion, setRandomQuestion] = React.useState({});
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [activeButtons, setActiveButtons] = React.useState([]);
-
-  const handleButtonClick = (questionIndex, answerIndex) => {
-    setActiveButtons((prevActiveButtons) => {
-      const newActiveButtons = [...prevActiveButtons];
-      newActiveButtons[questionIndex] = answerIndex;
-      return newActiveButtons;
-    });
-  };
-
-  React.useEffect(() => {
-    async function getQuestions() {
-      try {
-        const res = await fetch("https://opentdb.com/api.php?amount=10&category=20");
-        const data = await res.json();
-
-        setRandomQuestion(data.results);
-        setIsLoading(false);
-        setActiveButtons(new Array(data.results.length).fill(false));
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-        setIsLoading(false);
-      }
-    }
-
-    // Delay the API call by 5 seconds
-    const timerId = setTimeout(() => {
-      getQuestions();
-    }, 5000);
-
-    // Clear the timer to avoid calling the API if the component unmounts
-    return () => clearTimeout(timerId);
-  }, []);
+const Questions = (props) => {
 
   return (
     <div className='bg-[#F5F7FB] w-[100dh] h-max relative overflow-hidden'>
@@ -65,7 +30,7 @@ const Questions = () => {
       {/*Main content  */}
       
       <main className='relative z-10'>
-        {isLoading ? (
+        {props.questionsLoading ? (
           <div className='w-[100dh] h-screen flex flex-col justify-center items-center'>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -86,7 +51,7 @@ const Questions = () => {
           </div>
         ) : (
           <div className='w-[100dh] h-max px-8 py-8 md:px-32 md:py-16'>
-            {randomQuestion.map((item, questionIndex) => (
+            {props.questionsArray.map((item, questionIndex) => (
               <div className='my-4 border-b-2'>
                 <h2 
                   key={questionIndex} 
@@ -105,11 +70,7 @@ const Questions = () => {
                       return shuffledAnswers.map((answer, answerIndex) => (
                         <button
                           key={answerIndex}
-                          className={`text-xl border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap 
-                            ${
-                              activeButtons[questionIndex] === answerIndex ? 'bg-blue-500 text-white' : 'bg-white'
-                            }`}
-                          onClick={() => handleButtonClick(questionIndex, answerIndex)}
+                          className={`text-xl border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap`}
                         >
                           {answer}
                         </button>                      
