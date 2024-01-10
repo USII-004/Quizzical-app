@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Questions = (props) => {
+const Quiz = (props) => {
 
   return (
     <div className='bg-[#F5F7FB] w-[100dh] h-max relative overflow-hidden'>
@@ -51,35 +51,11 @@ const Questions = (props) => {
           </div>
         ) : (
           <div className='w-[100dh] h-max px-8 py-8 md:px-32 md:py-16'>
-            {props.questionsArray.map((item, questionIndex) => (
-              <div className='my-4 border-b-2'>
-                <h2 
-                  key={questionIndex} 
-                  className='font-[700] text-[#293264] text-[1rem] px-2 md:px-4'
-                >{item.question}</h2>
+            {props.questionElement}
 
-                {/* Corrected answers variable declaration */}
-                <div className='flex my-4 w-[100dh] overflow-x-auto'>
-                  { 
-                    (() => {
-                      const answers = [...item.incorrect_answers, item.correct_answer];
-                      
-                      // Custom sorting function to shuffle the array
-                      const shuffledAnswers = answers.sort(() => Math.random() - 0.5);
-
-                      return shuffledAnswers.map((answer, answerIndex) => (
-                        <button
-                          key={answerIndex}
-                          className={`text-xl border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap`}
-                        >
-                          {answer}
-                        </button>                      
-                      ));
-                    })()
-                  }
-                </div>
-              </div>
-            ))}
+            <div>
+              <button>Check Answer</button>
+            </div>
           </div>
         )}
       </main>
@@ -88,4 +64,4 @@ const Questions = (props) => {
   );
 };
 
-export default Questions;
+export default Quiz;
