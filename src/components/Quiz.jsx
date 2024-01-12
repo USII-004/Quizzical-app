@@ -30,7 +30,7 @@ const Quiz = (props) => {
       {/*Main content  */}
       
       <main className='relative z-10'>
-        {props.questionsLoading ? (
+        {props.issLoading ? (
           <div className='w-[100dh] h-screen flex flex-col justify-center items-center'>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
@@ -54,7 +54,13 @@ const Quiz = (props) => {
             {props.questionElement}
 
             <div>
-              <button>Check Answer</button>
+              {props.checked && <span>You scored {props.correct}/10 correct questions</span>}
+
+              <button
+                onClick={props.checked ? props.handlePlayAgain : props.handleCheck} 
+                className='bg-[#4D5B9E] hover:bg-[#394376] transition-all ease-in-out text-[#F5F7FB] flex justify-center items-center w-[193px] h-[52px] mt-[29px] rounded-[15px] text-[16px] font-[500] font-[Inter]'>
+                {props.checked ? 'Play Again' : 'Check Answer'}
+              </button>
             </div>
           </div>
         )}

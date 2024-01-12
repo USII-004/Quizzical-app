@@ -5,6 +5,13 @@ const Question = (props) => {
 
   let answers = props.q.answers
 
+  function handleClick(answer) {
+    if(props.q.checked) {
+      return
+    }
+    props.handleClickAnswer(props.id, answer)
+  }
+
   const answersElement = answers.map(element => {
     let id = null
     if (props.q.checked) {
@@ -21,7 +28,8 @@ const Question = (props) => {
     return (
       <button 
         key = {nanoid()}
-        className = {`text-xl border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap ${element === props.q.selected ? 'bg-blue' : 'transparent'}`}
+        onClick = {handleClick(element)}
+        className = {`text-[.6rem] border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap ${element === props.q.selected ? 'bg-[#D6DBF5]' : 'bg-transparent'}`}
       >
         {element}
       </button>
@@ -35,7 +43,7 @@ const Question = (props) => {
       >
         {props.q.question}
       </h2>
-      <div className='flex'>
+      <div className='md:flex'>
         {answersElement}
       </div>
     </div>

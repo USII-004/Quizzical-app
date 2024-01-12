@@ -21,3 +21,20 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* ============ BTN SELECTION ============== */
+
+#correct {
+  background-color: #94D7A2;
+  border: 1px solid #94D7A2;
+}
+
+#incorrect {
+  background-color: #F8BCBC;
+  border: 1px solid #F8BCBC;
+}
+
+#not-selected {
+  color: rgba(41, 50, 100, .4);
+  border: 1px solid rgba(41, 50, 100, .4)
+}
