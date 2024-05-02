@@ -28,7 +28,7 @@ const Question = (props) => {
     return (
       <button 
         key = {nanoid()}
-        onClick = {handleClick(element)}
+        onClick = {() => handleClick(element)}
         className = {`text-[.6rem] border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap ${element === props.q.selected ? 'bg-[#D6DBF5]' : 'bg-transparent'}`}
       >
         {element}
@@ -37,7 +37,7 @@ const Question = (props) => {
   })
 
   return (
-    <div className='my-4 border-b-2 py-4'>
+    <div className='py-4 my-4 border-b-2'>
       <h2 
         className='font-[700] text-[#293264] text-[1rem] px-2 md:px-4'
       >

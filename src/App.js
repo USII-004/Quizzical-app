@@ -6,7 +6,7 @@ import Question from "./components/Question";
 
 function App() {
   const [startQuiz, setStartQuiz] = useState(false)
-  const [count, setCount] = useState(0)
+  let [count, setCount] = useState(0)
   const [correct, setCorrect] = useState(0)
   const [checked, setChecked] = useState(false)
   const [randomQuestion, setRandomQuestion] = useState([])
@@ -17,8 +17,13 @@ function App() {
   useEffect(() => {
     async function getQuestions() {
       try {
-        const res = await fetch("https://opentdb.com/api.php?amount=10&category=20");
+        const res = await fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium");
         const data = await res.json();
+        if (!data.results) {
+          // Handle case where data.results is undefined
+          console.error("No results found in API response");
+          return;
+        }
         let q = []
         data.results.forEach(element => {
           q.push({
@@ -42,29 +47,48 @@ function App() {
   }, [count]);
 
 
+  // function handleCheck() {
+  //   let selected = true
+  //   randomQuestion.forEach(element => {
+  //     if(element.selected === null) {
+  //       selected = false
+  //       return
+  //     }
+  //   })
+  //   if(!selected) {
+  //     return
+  //   }
+  //   setRandomQuestion(questions => questions.map(element => {
+  //     return {...element, checked:true}
+  //   }))
+  //   setChecked(true)
+  //   let correct = 0
+  //   randomQuestion.forEach(element => {
+  //     if(element.correct === element.selected) {
+  //       correct +=1
+  //     }
+  //   })
+  //   setCorrect(correct)
+  // }
+
   function handleCheck() {
-    let selected = true
-    randomQuestion.forEach(element => {
-      if(element.selected === null) {
-        selected = false
-        return
-      }
-    })
-    if(!selected) {
-      return
+    // Check if all questions are answered
+    const allSelected = randomQuestion.every(element => element.selected !== null);
+    if (!allSelected) {
+      return;
     }
-    setRandomQuestion(questions => questions.map(element => {
-      return {...element, checked:true}
-    }))
-    setChecked(true)
-    let correct = 0
-    randomQuestion.forEach(element => {
-      if(element.correct === element.selected) {
-        correct +=1
-      }
-    })
-    setCorrect(correct)
+  
+    // Update the checked state and calculate the number of correct answers
+    setRandomQuestion(prevQuestions => {
+      const updatedQuestions = prevQuestions.map(element => ({ ...element, checked: true }));
+      const correctCount = updatedQuestions.filter(element => element.correct === element.selected).length;
+      setCorrect(correctCount);
+      return updatedQuestions;
+    });
+  
+    setChecked(true);
   }
+  
 
 
   function handleClickAnswer(id, answer) {
@@ -75,7 +99,7 @@ function App() {
 
 
   function handlePlayAgain() {
-    setCount(count = count + 1)
+    setCount(count + 1)
     setChecked(false)
   }
 
