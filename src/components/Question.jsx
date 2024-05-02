@@ -13,20 +13,19 @@ const Question = (props) => {
   }
 
   const answersElement = answers.map(element => {
-    let id = null
-    if (props.q.checked) {
-      if(props.q.correct === element) {
-        id = 'correct'
-      }
-      else if (props.q.selected === element) {
-        id = 'incorrect'
-      }
-      else {
-        id = 'not-selected'
-      }
-    }
+    // let id = 'not-selected'
+    // if (props.q.checked) {
+    //   if(props.q.correct === element) {
+    //     id = 'correct'
+    //   }
+    //   else if (props.q.selected === element) {
+    //     id = 'incorrect'
+    //   }
+    // }
+
+    // removing the id correct feature since color for correct has not been added 
     return (
-      <button 
+      <button
         key = {nanoid()}
         onClick = {() => handleClick(element)}
         className = {`text-[.6rem] border-[#293264] border flex rounded-md mx-2 p-2 text-[#293264] whitespace-nowrap ${element === props.q.selected ? 'bg-[#D6DBF5]' : 'bg-transparent'}`}
